@@ -1,10 +1,24 @@
 package christmas;
 
+import camp.nextstep.edu.missionutils.Console;
+
 public class Controller {
     public void Start() {
         View view = new View();
-        view.StartMessage();
+        view.EnterDateMessage();
+        int EnterDate = EnterDate();
         view.EnterMenuMessage();
-        view.PreviewEventBenefitMessage(26);
+        String EnterMenu = EnterMenu();
+        view.PreviewEventBenefitMessage(EnterDate);
+    }
+
+    private int EnterDate() {
+        int EnterDate = Integer.parseInt(Console.readLine());
+        return EnterDate;
+    }
+
+    private String EnterMenu() {
+        String EnterMenu = Console.readLine();
+        return EnterMenu;
     }
 }
