@@ -5,6 +5,11 @@ import camp.nextstep.edu.missionutils.Console;
 public class Controller {
     public void Start() {
         View view = new View();
+        InputDateAndMenu(view);
+
+    }
+
+    private void InputDateAndMenu(View view) {
         view.EnterDateMessage();
         int EnterDate = EnterDate();
         view.EnterMenuMessage();
