@@ -17,7 +17,4 @@ public class View {
         System.out.println("12월 " + VisitDay + "일에 우테코 식당에서 받을 이벤트 혜택 미리 보기!");
     }
 
-    public void PrintErrorMessage(String message) {
-        System.out.println(message);
-    }
 }

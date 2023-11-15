@@ -7,6 +7,7 @@ public class Controller {
         View view = new View();
         Model model = new Model();
         InputDate(view, model);
+        InputMenu(view, model);
 
     }
 
@@ -18,17 +19,32 @@ public class Controller {
             try {
                 model.CheckValidDate(date);
                 break;
-            }catch(IllegalArgumentException e)
-            {
+            } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
             }
         }
     }
 
 
-    private String EnterMenu() {
-        String Menu = Console.readLine();
+    private void InputMenu(View view, Model model) {
+        while (true) {
+            view.EnterMenuMessage();
+            String Menu = Console.readLine();
+            String[] Menus = Menu.split(",");
 
-        return Menu;
+            boolean allValid = true;
+
+            for (String menu : Menus) {
+                try {
+                    model.CheckValidMenu(menu);
+                    break;
+                } catch (IllegalArgumentException e) {
+                    allValid = false;
+                    System.out.println(e.getMessage());
+                }
+            }
+
+            if (allValid) break;
+        }
     }
 }
