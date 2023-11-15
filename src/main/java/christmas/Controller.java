@@ -5,25 +5,30 @@ import camp.nextstep.edu.missionutils.Console;
 public class Controller {
     public void Start() {
         View view = new View();
-        InputDateAndMenu(view);
+        Model model = new Model();
+        InputDate(view, model);
 
     }
 
-    private void InputDateAndMenu(View view) {
-        view.EnterDateMessage();
-        int EnterDate = EnterDate();
-        view.EnterMenuMessage();
-        String EnterMenu = EnterMenu();
-        view.PreviewEventBenefitMessage(EnterDate);
+    private void InputDate(View view, Model model) {
+        view.StartMessage();
+        while (true) {
+            view.EnterDateMessage();
+            String date = Console.readLine();
+            try {
+                model.CheckValidDate(date);
+                break;
+            }catch(IllegalArgumentException e)
+            {
+                System.out.println(e.getMessage());
+            }
+        }
     }
 
-    private int EnterDate() {
-        int EnterDate = Integer.parseInt(Console.readLine());
-        return EnterDate;
-    }
 
     private String EnterMenu() {
-        String EnterMenu = Console.readLine();
-        return EnterMenu;
+        String Menu = Console.readLine();
+
+        return Menu;
     }
 }
