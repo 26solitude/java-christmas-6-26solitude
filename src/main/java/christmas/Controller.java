@@ -9,7 +9,28 @@ public class Controller {
         int date = InputDate(view, model);
         String[] Menus = InputMenu(view, model);
         view.ShowInputMenu(Menus);
+        view.ShowTotalPrice(CalcTotalPrice(Menus));
 
+    }
+
+    private int CalcTotalPrice(String[] menus) {
+        int TotalPrice = 0;
+        for (String menuItem : menus) {
+            String[] parts = menuItem.split("-");
+            String menuName = parts[0].trim();
+            int quantity = Integer.parseInt(parts[1].trim());
+
+            // Menu 객체로 저장하여 보여주기
+            for (Model.Menu menu : Model.Menu.values()) {
+                if (menu.getName().equals(menuName)) {
+                    for (int i = 0; i < quantity; i++) {
+                        TotalPrice += menu.getPrice();
+                    }
+                }
+            }
+        }
+
+        return TotalPrice;
     }
 
     private int InputDate(View view, Model model) {

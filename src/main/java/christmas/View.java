@@ -1,5 +1,7 @@
 package christmas;
 
+import java.text.DecimalFormat;
+
 public class View {
 
     public void StartMessage(){
@@ -34,4 +36,10 @@ public class View {
         }
     }
 
+    public void ShowTotalPrice(int i) {
+        System.out.println("<할인 전 총주문 금액>");
+        DecimalFormat decFormat = new DecimalFormat("###,###");
+        String str = decFormat.format(i);
+        System.out.println(str);
+    }
 }
