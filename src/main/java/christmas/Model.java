@@ -131,12 +131,12 @@ public class Model {
         }
     }
 
-    private boolean CheckDateRange(String date) {
+    boolean CheckDateRange(String date) {
         int checkMenu = Integer.parseInt(date);
         return checkMenu >= 1 && checkMenu <= 31;
     }
 
-    private static boolean CheckDateInt(String date) {
+    static boolean CheckDateInt(String date) {
         try {
             Integer.parseInt(date);
             return true;
@@ -145,7 +145,7 @@ public class Model {
         }
     }
 
-    int CalcTotalPrice(String[] menus) {
+    static int CalcTotalPrice(String[] menus) {
         int TotalPrice = 0;
         for (String menuItem : menus) {
             String[] parts = menuItem.split("-");
@@ -225,21 +225,21 @@ public class Model {
         }
     }
 
-    int TotalDiscount(int christmasDiscount, int holydayDiscount, int weekendDiscount, int specialDiscount, int gift) {
+    static int TotalDiscount(int christmasDiscount, int holydayDiscount, int weekendDiscount, int specialDiscount, int gift) {
         return christmasDiscount + holydayDiscount + weekendDiscount + specialDiscount + gift;
     }
 
-    int CheckGift(int i) {
+    static int CheckGift(int i) {
         if (i > 120000) return 25000;
         return 0;
     }
 
-    int SpecialDiscount(int date) {
+    static int SpecialDiscount(int date) {
         if (date % 7 == 3 || date == 25) return 1000;
         return 0;
     }
 
-    int HolydayDiscount(String[] menus, int date) {
+    static int HolydayDiscount(String[] menus, int date) {
         int HolydayDiscount = 0;
         if (date % 7 == 1 || date % 7 == 2) {
             for (String menuItem : menus) {
@@ -259,7 +259,7 @@ public class Model {
         return HolydayDiscount;
     }
 
-    int WeekendDiscount(String[] menus, int date) {
+    static int WeekendDiscount(String[] menus, int date) {
         int WeekendDiscount = 0;
         if (date % 7 != 1 && date % 7 != 2) {
             for (String menuItem : menus) {
@@ -280,7 +280,7 @@ public class Model {
         return WeekendDiscount;
     }
 
-    int ChristmasDiscount(int date) {
+    static int ChristmasDiscount(int date) {
         return 1000 + 100 * (date - 1);
     }
 
