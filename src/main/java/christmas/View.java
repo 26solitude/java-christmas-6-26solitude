@@ -1,6 +1,5 @@
 package christmas;
 
-import java.awt.*;
 import java.text.DecimalFormat;
 
 import static christmas.Model.CalcInputMenu;
@@ -31,11 +30,48 @@ public class View {
         System.out.println(name + " " + quantity + "개");
     }
 
-
-    public void ShowTotalPrice(int i) {
-        System.out.println("<할인 전 총주문 금액>");
+    public String printFormat(int price){
         DecimalFormat decFormat = new DecimalFormat("###,###");
-        String str = decFormat.format(i);
-        System.out.println(str);
+        String formatPrice = decFormat.format(price);
+        return formatPrice;
+    }
+
+
+    public void ShowTotalPrice(int totalPrice) {
+        System.out.println("<할인 전 총주문 금액>");
+        System.out.println(printFormat(totalPrice));
+    }
+
+    public void ShowGift(int gift, int totalPrice) {
+        if(gift == 25000) System.out.println("<증정 메뉴>\n샴페인 1개");
+        if(gift == 0 || totalPrice<10000) System.out.println("<증정 메뉴>\n없음");
+    }
+
+    public void TotalDiscountList(int christmasDiscount, int weekendDiscount, int holydayDiscount, int specialDiscount, int totalPrice, int gift) {
+        System.out.println("<혜택 내역>");
+        if(totalPrice<10000){
+            System.out.println("없음");
+            return;
+        }
+        if(christmasDiscount != 0) System.out.println("크리스마스 디데이 할인 : -"+printFormat(christmasDiscount)+"원");
+        if(weekendDiscount != 0) System.out.println("평일 할인 : -"+printFormat(weekendDiscount)+"원");
+        if(holydayDiscount != 0) System.out.println("주말 할인 : -"+printFormat(holydayDiscount)+"원");
+        if(specialDiscount != 0) System.out.println("특별 할인 : -"+printFormat(specialDiscount)+"원");
+        if(gift != 0) System.out.println("증정 이벤트 : -"+printFormat(gift)+"원");
+    }
+
+    public void TotalDiscountPrice(int totalDiscount, int totalPrice, int gift) {
+        if (totalPrice <10000){
+            System.out.println("<총혜택 금액>\n0원");
+            System.out.println("<할인 후 예상 결제 금액>\n"+printFormat(totalPrice)+"원");
+            return;
+        }
+        System.out.println("<총혜택 금액>\n-"+totalDiscount+"원");
+        if(gift!=0) System.out.println("<할인 후 예상 결제 금액>\n"+printFormat((totalPrice-totalDiscount+gift))+"원");
+        if(gift==0) System.out.println("<할인 후 예상 결제 금액>\n"+printFormat((totalPrice-totalDiscount))+"원");
+    }
+
+    public void ShowBadge(String badge) {
+        System.out.println("<12월 이벤트 배지>\n"+badge);
     }
 }

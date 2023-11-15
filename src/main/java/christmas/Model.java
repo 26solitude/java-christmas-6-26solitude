@@ -50,10 +50,14 @@ public class Model {
             throw new IllegalArgumentException("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.");
         }
     }
+    
 
-    public void CalcDiscount(String[] menus) {
+    public String CheckBadge(int totalDiscount) {
+        if(totalDiscount>=5000 && totalDiscount<10000) return "별";
+        if(totalDiscount>=10000 && totalDiscount<20000) return "트리";
+        if(totalDiscount>=20000) return "산타";
+        return "없음";
     }
-
 
     public enum Menu {
         // 애피타이저
@@ -206,6 +210,65 @@ public class Model {
                 }
             }
         }
+    }
+
+    int TotalDiscount(int christmasDiscount, int holydayDiscount, int weekendDiscount, int specialDiscount, int gift) {
+        return christmasDiscount + holydayDiscount + weekendDiscount + specialDiscount + gift;
+    }
+
+    int CheckGift(int i) {
+        if (i > 120000) return 25000;
+        return 0;
+    }
+
+    int SpecialDiscount(int date) {
+        if (date % 7 == 3 || date == 25) return 1000;
+        return 0;
+    }
+
+    int HolydayDiscount(String[] menus, int date) {
+        int HolydayDiscount = 0;
+        if (date % 7 == 1 || date % 7 == 2) {
+            for (String menuItem : menus) {
+                String[] parts = menuItem.split("-");
+                String menuName = parts[0].trim();
+                int quantity = Integer.parseInt(parts[1].trim());
+
+                // Menu 객체로 저장하여 보여주기
+                for (Model.Menu menu : Model.Menu.values()) {
+                    if (menu.getName().equals(menuName) && menu.getCategory().equals(Category.MAIN)) {
+                        HolydayDiscount += 2023 * quantity;
+                        break;
+                    }
+                }
+            }
+        }
+        return HolydayDiscount;
+    }
+
+    int WeekendDiscount(String[] menus, int date) {
+        int WeekendDiscount = 0;
+        if (date % 7 != 1 && date % 7 != 2) {
+            for (String menuItem : menus) {
+                String[] parts = menuItem.split("-");
+                String menuName = parts[0].trim();
+                int quantity = Integer.parseInt(parts[1].trim());
+
+                // Menu 객체로 저장하여 보여주기
+                for (Model.Menu menu : Model.Menu.values()) {
+                    if (menu.getName().equals(menuName) && menu.getCategory().equals(Category.DESSERT)) {
+                        System.out.println(menuName+" "+quantity);
+                        WeekendDiscount += 2023 * quantity;
+                        break;
+                    }
+                }
+            }
+        }
+        return WeekendDiscount;
+    }
+
+    int ChristmasDiscount(int date) {
+        return 1000 + 100 * (date - 1);
     }
 
 
