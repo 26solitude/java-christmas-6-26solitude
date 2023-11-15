@@ -10,7 +10,6 @@ public class Model {
             String[] parts = order.split("-");
             if (parts.length != 2) {
                 isValid = false;
-                anyError = true;
                 break;
             } else {
                 String menuName = parts[0].trim();
@@ -20,12 +19,10 @@ public class Model {
                     quantity = Integer.parseInt(parts[1].trim());
                     if (quantity <= 0) {
                         isValid = false;
-                        anyError = true;
                         break;
                     }
                 } catch (NumberFormatException e) {
                     isValid = false;
-                    anyError = true;
                     break;
                 }
 
@@ -40,19 +37,14 @@ public class Model {
 
                 if (!menuExists) {
                     isValid = false;
-                    anyError = true;
                     break;
                 }
             }
         }
-        Result result = new Result(isValid, anyError);
 
-        if (!result.isValid() && result.anyError()) {
+        if (!isValid) {
             throw new IllegalArgumentException("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.");
         }
-    }
-
-    private record Result(boolean isValid, boolean anyError) {
     }
 
 

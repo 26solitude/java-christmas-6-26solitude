@@ -6,16 +6,18 @@ public class Controller {
     public void Start() {
         View view = new View();
         Model model = new Model();
-        InputDate(view, model);
-        InputMenu(view, model);
+        int date = InputDate(view, model);
+        String[] Menus = InputMenu(view, model);
+        view.ShowInputMenu(Menus);
 
     }
 
-    private void InputDate(View view, Model model) {
+    private int InputDate(View view, Model model) {
         view.StartMessage();
+        String date;
         while (true) {
             view.EnterDateMessage();
-            String date = Console.readLine();
+            date = Console.readLine();
             try {
                 model.CheckValidDate(date);
                 break;
@@ -23,28 +25,35 @@ public class Controller {
                 System.out.println(e.getMessage());
             }
         }
+        return Integer.parseInt(date);
     }
 
 
-    private void InputMenu(View view, Model model) {
+    private String[] InputMenu(View view, Model model) {
+        String[] Menus;
         while (true) {
             view.EnterMenuMessage();
             String Menu = Console.readLine();
-            String[] Menus = Menu.split(",");
+            Menus = Menu.split(",");
 
             boolean allValid = true;
-
-            for (String menu : Menus) {
-                try {
-                    model.CheckValidMenu(menu);
-                    break;
-                } catch (IllegalArgumentException e) {
-                    allValid = false;
-                    System.out.println(e.getMessage());
-                }
-            }
+            allValid = CheckValidMenu(model, Menus, allValid);
 
             if (allValid) break;
         }
+        return Menus;
+    }
+
+    private static boolean CheckValidMenu(Model model, String[] Menus, boolean allValid) {
+        for (String menu : Menus) {
+            try {
+                model.CheckValidMenu(menu);
+                break;
+            } catch (IllegalArgumentException e) {
+                allValid = false;
+                System.out.println(e.getMessage());
+            }
+        }
+        return allValid;
     }
 }

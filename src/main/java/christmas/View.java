@@ -17,4 +17,21 @@ public class View {
         System.out.println("12월 " + VisitDay + "일에 우테코 식당에서 받을 이벤트 혜택 미리 보기!");
     }
 
+    public void ShowInputMenu(String[] menus) {
+        System.out.println("<주문 메뉴>");
+        for (String menuItem : menus) {
+            String[] parts = menuItem.split("-");
+            String menuName = parts[0].trim();
+            int quantity = Integer.parseInt(parts[1].trim());
+
+            // Menu 객체로 저장하여 보여주기
+            for (Model.Menu menu : Model.Menu.values()) {
+                if (menu.getName().equals(menuName)) {
+                    System.out.println(menu.getName() + " " + quantity + "개");
+                    break;
+                }
+            }
+        }
+    }
+
 }
