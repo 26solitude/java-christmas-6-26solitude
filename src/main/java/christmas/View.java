@@ -1,6 +1,9 @@
 package christmas;
 
+import java.awt.*;
 import java.text.DecimalFormat;
+
+import static christmas.Model.CalcInputMenu;
 
 public class View {
 
@@ -21,20 +24,13 @@ public class View {
 
     public void ShowInputMenu(String[] menus) {
         System.out.println("<주문 메뉴>");
-        for (String menuItem : menus) {
-            String[] parts = menuItem.split("-");
-            String menuName = parts[0].trim();
-            int quantity = Integer.parseInt(parts[1].trim());
-
-            // Menu 객체로 저장하여 보여주기
-            for (Model.Menu menu : Model.Menu.values()) {
-                if (menu.getName().equals(menuName)) {
-                    System.out.println(menu.getName() + " " + quantity + "개");
-                    break;
-                }
-            }
-        }
+        CalcInputMenu(menus);
     }
+
+    static void ShowInputMenus(String name, int quantity) {
+        System.out.println(name + " " + quantity + "개");
+    }
+
 
     public void ShowTotalPrice(int i) {
         System.out.println("<할인 전 총주문 금액>");

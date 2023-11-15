@@ -1,5 +1,9 @@
 package christmas;
 
+import camp.nextstep.edu.missionutils.Console;
+
+import static christmas.View.ShowInputMenus;
+
 public class Model {
     public void CheckValidMenu(String menu) {
         String[] orders = menu.split(",");
@@ -45,6 +49,9 @@ public class Model {
         if (!isValid) {
             throw new IllegalArgumentException("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.");
         }
+    }
+
+    public void CalcDiscount(String[] menus) {
     }
 
 
@@ -120,4 +127,86 @@ public class Model {
             return false;
         }
     }
+
+    int CalcTotalPrice(String[] menus) {
+        int TotalPrice = 0;
+        for (String menuItem : menus) {
+            String[] parts = menuItem.split("-");
+            String menuName = parts[0].trim();
+            int quantity = Integer.parseInt(parts[1].trim());
+
+            // Menu 객체로 저장하여 보여주기
+            for (Model.Menu menu : Model.Menu.values()) {
+                if (menu.getName().equals(menuName)) {
+                    for (int i = 0; i < quantity; i++) {
+                        TotalPrice += menu.getPrice();
+                    }
+                }
+            }
+        }
+
+        return TotalPrice;
+    }
+
+    int InputDate(View view, Model model) {
+        view.StartMessage();
+        String date;
+        while (true) {
+            view.EnterDateMessage();
+            date = Console.readLine();
+            try {
+                model.CheckValidDate(date);
+                break;
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        return Integer.parseInt(date);
+    }
+
+    String[] InputMenu(View view, Model model) {
+        String[] Menus;
+        while (true) {
+            view.EnterMenuMessage();
+            String Menu = Console.readLine();
+            Menus = Menu.split(",");
+
+            boolean allValid = true;
+            allValid = CheckValidMenu(model, Menus, allValid);
+
+            if (allValid) break;
+        }
+        return Menus;
+    }
+
+    private static boolean CheckValidMenu(Model model, String[] Menus, boolean allValid) {
+        for (String menu : Menus) {
+            try {
+                model.CheckValidMenu(menu);
+                break;
+            } catch (IllegalArgumentException e) {
+                allValid = false;
+                System.out.println(e.getMessage());
+            }
+        }
+        return allValid;
+    }
+
+    static void CalcInputMenu(String[] menus) {
+        for (String menuItem : menus) {
+            String[] parts = menuItem.split("-");
+            String menuName = parts[0].trim();
+            int quantity = Integer.parseInt(parts[1].trim());
+
+            // Menu 객체로 저장하여 보여주기
+            for (Model.Menu menu : Model.Menu.values()) {
+                if (menu.getName().equals(menuName)) {
+                    ShowInputMenus(menu.getName(), quantity);
+                    break;
+                }
+            }
+        }
+    }
+
+
 }
