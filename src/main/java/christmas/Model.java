@@ -9,9 +9,13 @@ public class Model {
         String[] orders = menu.split(",");
         boolean isValid = true;
         boolean anyError = false;
+        boolean checkOnlyDrink = false;
+        int totalQuantity = 0;
+
 
         for (String order : orders) {
             String[] parts = order.split("-");
+            if (parts.length > 20) throw new IllegalArgumentException("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.");
             if (parts.length != 2) {
                 isValid = false;
                 break;
@@ -21,6 +25,7 @@ public class Model {
 
                 try {
                     quantity = Integer.parseInt(parts[1].trim());
+                    totalQuantity += quantity;
                     if (quantity <= 0) {
                         isValid = false;
                         break;
@@ -35,6 +40,7 @@ public class Model {
                 for (Menu menuObj : Menu.values()) {
                     if (menuObj.getName().equals(menuName)) {
                         menuExists = true;
+                        if (!menuObj.getCategory().equals(Category.DRINK)) checkOnlyDrink = true;
                         break;
                     }
                 }
@@ -45,17 +51,24 @@ public class Model {
                 }
             }
         }
+        if (totalQuantity > 20) {
+            isValid = false;
+        }
+
+        if (checkOnlyDrink == false) {
+            isValid = false;
+        }
 
         if (!isValid) {
             throw new IllegalArgumentException("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.");
         }
     }
-    
+
 
     public String CheckBadge(int totalDiscount) {
-        if(totalDiscount>=5000 && totalDiscount<10000) return "별";
-        if(totalDiscount>=10000 && totalDiscount<20000) return "트리";
-        if(totalDiscount>=20000) return "산타";
+        if (totalDiscount >= 5000 && totalDiscount < 10000) return "별";
+        if (totalDiscount >= 10000 && totalDiscount < 20000) return "트리";
+        if (totalDiscount >= 20000) return "산타";
         return "없음";
     }
 
@@ -257,7 +270,7 @@ public class Model {
                 // Menu 객체로 저장하여 보여주기
                 for (Model.Menu menu : Model.Menu.values()) {
                     if (menu.getName().equals(menuName) && menu.getCategory().equals(Category.DESSERT)) {
-                        System.out.println(menuName+" "+quantity);
+                        System.out.println(menuName + " " + quantity);
                         WeekendDiscount += 2023 * quantity;
                         break;
                     }
