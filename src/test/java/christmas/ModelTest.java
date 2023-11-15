@@ -7,17 +7,26 @@ import static org.junit.jupiter.api.Assertions.*;
 class ModelTest {
 
     @Test
-    void checkValidMenu() {
+    void checkValidMenu_ValidOrder() {
         Model model = new Model();
+        String validOrder = "양송이수프-2";
+        assertThrows(IllegalArgumentException.class, () -> model.CheckValidMenu(validOrder));
+    }
 
-        // 유효한 메뉴 테스트
-        String validMenu = "타파스-2, 레드와인-1";
-        assertDoesNotThrow(() -> model.CheckValidMenu(validMenu));
+    @Test
+    void checkValidMenu_InvalidOrder() {
+        Model model = new Model();
+        String invalidOrder = "양송이수프-2, 샴페인-1, 토마토스프-5";
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> model.CheckValidMenu(invalidOrder));
+        assertEquals("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.", exception.getMessage());
+    }
 
-        // 유효하지 않은 메뉴 테스트
-        String invalidMenu = "양송이수프-1, 아이스크림-3, 크리스마스파스타-0, 타파스-5, 샴페인-2, 샐러드-1";
-        assertThrows(IllegalArgumentException.class, () -> model.CheckValidMenu(invalidMenu));
-
+    @Test
+    void checkValidMenu_InvalidDrinkOrder() {
+        Model model = new Model();
+        String invalidDrinkOrder = "양송이수프-2, 샴페인-1, 레드와인-1";
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> model.CheckValidMenu(invalidDrinkOrder));
+        assertEquals("[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.", exception.getMessage());
     }
 
     @Test
